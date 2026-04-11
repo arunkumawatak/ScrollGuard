@@ -1,6 +1,5 @@
 import 'package:hive/hive.dart';
 
-part 'daily_usage.g.dart';
 
 @HiveType(typeId: 1)
 class DailyUsage extends HiveObject {

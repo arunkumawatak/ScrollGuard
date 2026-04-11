@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'core/theme/app_theme.dart';
 import 'data/local/hive_boxes.dart';
-import 'presentation/views/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

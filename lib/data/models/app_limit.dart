@@ -1,6 +1,5 @@
 import 'package:hive/hive.dart';
 
-part 'app_limit.g.dart';
 
 @HiveType(typeId: 0)
 class AppLimit extends HiveObject {

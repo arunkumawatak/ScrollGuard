@@ -9,13 +9,13 @@ class HiveBoxes {
 
   static Future<void> init() async {
     // Register Adapters
-    Hive.registerAdapter(AppLimitAdapter());
-    Hive.registerAdapter(DailyUsageAdapter());
-    Hive.registerAdapter(AppUsageAdapter());
+    // Hive.registerAdapter(AppLimitAdapter());
+    // Hive.registerAdapter(DailyUsageAdapter());
+    // Hive.registerAdapter(AppUsageAdapter());
 
-    // Open Boxes
-    await Hive.openBox<AppLimit>(limitsBox);
-    await Hive.openBox<DailyUsage>(usageBox);
-    await Hive.openBox(settingsBox);
+    // // Open Boxes
+    // await Hive.openBox<AppLimit>(limitsBox);
+    // await Hive.openBox<DailyUsage>(usageBox);
+    // await Hive.openBox(settingsBox);
   }
 }
