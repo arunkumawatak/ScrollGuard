@@ -1,0 +1,7 @@
+<accessibility-service
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:packageNames="com.google.android.youtube,com.instagram.android"
+    android:accessibilityEventTypes="typeViewScrolled"
+    android:accessibilityFeedbackType="feedbackGeneric"
+    android:canRetrieveWindowContent="true"
+    android:description="@string/accessibility_service_description" />
