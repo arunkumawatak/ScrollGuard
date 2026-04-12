@@ -1,35 +1,34 @@
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:hive_flutter/hive_flutter.dart';
-// import 'core/theme/app_theme.dart';
-// import 'data/local/hive_boxes.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'; // ✅ ADD THIS
+import 'data/repositories/hive_repository.dart';
+import 'presentation/screens/splash_screen.dart';
+import 'core/theme.dart';
 
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await HiveRepository.init();
 
-//   // Initialize Firebase
-//   await Firebase.initializeApp();
+  runApp(
+    const ProviderScope(   // ✅ THIS FIXES YOUR ERROR
+      child: ScrollGuardApp(),
+    ),
+  );
+}
 
-//   // Initialize Hive
-//   await Hive.initFlutter();
-//   await HiveBoxes.init();   // We'll create this next
+class ScrollGuardApp extends StatelessWidget {
+  const ScrollGuardApp({super.key});
 
-//   runApp(const ProviderScope(child: ScrollGuardApp()));
-// }
-
-// class ScrollGuardApp extends StatelessWidget {
-//   const ScrollGuardApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'ScrollGuard',
-//       debugShowCheckedModeBanner: false,
-//       theme: AppTheme.lightTheme,
-//       darkTheme: AppTheme.darkTheme,
-//       themeMode: ThemeMode.system,
-//       home: const HomeScreen(),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'ScrollGuard',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
+      home: const SplashScreen(),
+    );
+  }
+}
