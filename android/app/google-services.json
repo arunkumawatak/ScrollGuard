@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "217131792548",
+    "project_id": "fir-1177e",
+    "storage_bucket": "fir-1177e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217131792548:android:ec490991f13bff173c4e31",
+        "android_client_info": {
+          "package_name": "com.example.scrollguard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217131792548-s2iunb027ghskvjfk3umu9r3s5iph7io.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.scrollguard",
+            "certificate_hash": "b93750103808e5caf1ba676eecce00e4566cd655"
+          }
+        },
+        {
+          "client_id": "217131792548-6i6lo4utct3erbkr3v20vb8diar4s2pd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5nlgdOeb-OaY6Gzv0MpzCqbMVEQdjRNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217131792548-6i6lo4utct3erbkr3v20vb8diar4s2pd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "217131792548-vjqaoj3stotpusuvbc455j1jnjt8189q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.scrollguard"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
