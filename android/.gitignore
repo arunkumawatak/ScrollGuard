@@ -1,9 +1,11 @@
 # Flutter / Dart
 .dart_tool/
-.packages
-.pub-cache/
 .pub/
+.pub-cache/
 build/
+
+# Optional (Flutter apps usually commit this, but you can ignore if you want)
+# pubspec.lock
 
 # Android
 android/.gradle/
@@ -18,22 +20,31 @@ android/.cxx/
 # iOS
 ios/Pods/
 ios/.symlinks/
-ios/Flutter/Flutter.framework
-ios/Flutter/Flutter.podspec
+ios/Flutter/
+ios/Runner.xcworkspace/
 
-# Firebase (IMPORTANT 🔥)
+# macOS
+macos/Pods/
+macos/Flutter/
+macos/Runner.xcworkspace/
+
+# Firebase (🔥 MUST NOT PUSH)
 android/app/google-services.json
 ios/Runner/GoogleService-Info.plist
 
-# Keystore (VERY IMPORTANT 🔥)
+# Keystore (🔥 CRITICAL)
 key.properties
 **/*.keystore
 **/*.jks
 
-# Misc
+# Env files (future safe)
+.env
+.env.*
+
+# IDE / System
+.idea/
+.vscode/
 *.log
 *.tmp
 *.swp
 .DS_Store
-.idea/
-.vscode/
