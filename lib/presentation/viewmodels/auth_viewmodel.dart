@@ -1,5 +1,4 @@
-// lib/presentation/viewmodels/auth_viewmodel.dart
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import '../../data/services/firebase_service.dart';

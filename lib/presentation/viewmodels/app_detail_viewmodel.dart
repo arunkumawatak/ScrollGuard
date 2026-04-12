@@ -1,5 +1,3 @@
-// lib/presentation/viewmodels/app_detail_viewmodel.dart
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import '../../data/models/limit_model.dart';
 import '../../data/repositories/hive_repository.dart';

@@ -1,4 +1,3 @@
-// lib/data/repositories/hive_repository.dart
 import 'package:hive_flutter/hive_flutter.dart';
 import '../../core/constants.dart';
 import '../models/limit_model.dart';
@@ -11,10 +10,8 @@ class HiveRepository {
     await Hive.openBox<Map<dynamic, dynamic>>(Constants.hiveUsageBox);
   }
 
-  // User Box
   static Box<Map> get userBox => Hive.box(Constants.hiveUserBox);
 
-  // Limits Box
   static Box<Map> get limitsBox => Hive.box(Constants.hiveLimitsBox);
 
   static Future<void> saveAppLimit(AppLimit limit) async {
@@ -33,7 +30,6 @@ class HiveRepository {
         .toList();
   }
 
-  // Usage Box (will be used later for caching daily usage)
   static Box<Map> get usageBox => Hive.box(Constants.hiveUsageBox);
 
   static Future<void> clearAll() async {

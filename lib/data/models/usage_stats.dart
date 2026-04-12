@@ -14,13 +14,13 @@ class UsageStats {
     return UsageStats(
       packageName: map['packageName'] ?? '',
       totalTimeMinutes: map['totalTime'] ?? 0,
-      date: DateTime.now(), // You can enhance this later
+      date: DateTime.now(),
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'packageName': packageName,
-        'totalTimeMinutes': totalTimeMinutes,
-        'date': date.toIso8601String(),
-      };
+    'packageName': packageName,
+    'totalTimeMinutes': totalTimeMinutes,
+    'date': date.toIso8601String(),
+  };
 }

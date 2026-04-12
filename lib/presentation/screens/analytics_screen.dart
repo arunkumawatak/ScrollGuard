@@ -1,9 +1,7 @@
-// lib/presentation/screens/analytics_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:scrollguard/presentation/widgets/custom_graph.dart';
-import '../viewmodels/analytics_viewmodel.dart';
 
 final analyticsViewModelProvider = StateNotifierProvider<AnalyticsViewModel, AnalyticsState>(
   (ref) => AnalyticsViewModel(),
@@ -32,8 +30,7 @@ class AnalyticsViewModel extends StateNotifier<AnalyticsState> {
 
   Future<void> loadUsageData() async {
     state = state.copyWith(isLoading: true);
-    // TODO: Later integrate with native getUsageStats
-    // For now showing dummy data
+
     await Future.delayed(const Duration(milliseconds: 800));
     state = state.copyWith(
       dailyUsage: {
@@ -79,7 +76,6 @@ class AnalyticsScreen extends ConsumerWidget {
                       trailing: const Text('2h 34m'),
                     ),
                   ),
-                  // Add more cards as needed
                 ],
               ),
             ),

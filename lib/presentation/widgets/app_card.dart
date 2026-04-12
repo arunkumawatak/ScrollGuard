@@ -1,4 +1,3 @@
-// lib/presentation/widgets/app_card.dart
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -20,7 +19,6 @@ class AppCard extends StatelessWidget {
     try {
       if (base64Str == null || base64Str.isEmpty) return null;
 
-      // ✅ Remove invalid characters (VERY IMPORTANT)
       final cleaned = base64Str.replaceAll(RegExp(r'\s+'), '');
 
       return base64Decode(cleaned);

@@ -1,4 +1,3 @@
-// lib/utils/permission_helper.dart
 import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'dart:io';
@@ -9,7 +8,6 @@ class PermissionHelper {
 
     final androidInfo = await DeviceInfoPlugin().androidInfo;
     if (androidInfo.version.sdkInt >= 30) {
-      // For Android 11+, user must manually enable in Settings
       final status = await Permission.manageExternalStorage.status;
       if (!status.isGranted) {
         await openAppSettings();
@@ -32,7 +30,6 @@ class PermissionHelper {
   static Future<void> requestAllPermissions() async {
     await requestUsageStatsPermission();
     await requestOverlayPermission();
-    // Also request notification permission
     await Permission.notification.request();
   }
 } 

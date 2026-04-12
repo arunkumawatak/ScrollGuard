@@ -1,4 +1,3 @@
-// lib/presentation/screens/about_screen.dart
 import 'package:flutter/material.dart';
 
 class AboutScreen extends StatelessWidget {

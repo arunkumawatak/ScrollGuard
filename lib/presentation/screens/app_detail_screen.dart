@@ -1,4 +1,3 @@
-// lib/presentation/screens/app_detail_screen.dart
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -49,7 +48,6 @@ class _AppDetailScreenState extends ConsumerState<AppDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // App Icon + Name
             Center(
               child: Column(
                 children: [
@@ -82,7 +80,6 @@ class _AppDetailScreenState extends ConsumerState<AppDetailScreen> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
 
-            // Predefined Limits
             Wrap(
               spacing: 8,
               children: Constants.predefinedLimits.map((minutes) {
@@ -98,7 +95,6 @@ class _AppDetailScreenState extends ConsumerState<AppDetailScreen> {
 
             const SizedBox(height: 24),
 
-            // Mode Selection
             const Text(
               "Mode",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),

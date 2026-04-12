@@ -1,11 +1,9 @@
-// lib/presentation/screens/home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scrollguard/presentation/widgets/app_card.dart';
 
 import '../../core/method_channel.dart';
 import '../viewmodels/app_list_viewmodel.dart';
-import '../viewmodels/auth_viewmodel.dart';
 
 import 'app_detail_screen.dart';
 import 'analytics_screen.dart';
@@ -25,7 +23,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // Start native monitoring service once home screen loads
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ScrollGuardChannel.startMonitoring();
     });
@@ -46,7 +43,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: () => ref.read(appListViewModelProvider.notifier).loadInstalledApps(),
+            onPressed: () =>
+                ref.read(appListViewModelProvider.notifier).loadInstalledApps(),
           ),
         ],
       ),
@@ -57,7 +55,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.apps), label: 'Apps'),
-          BottomNavigationBarItem(icon: Icon(Icons.analytics), label: 'Analytics'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.analytics),
+            label: 'Analytics',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
           BottomNavigationBarItem(icon: Icon(Icons.info), label: 'About'),
         ],
@@ -66,7 +67,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 }
 
-// ====================== App List Tab ======================
 class AppListTab extends ConsumerWidget {
   const AppListTab({super.key});
 
@@ -92,13 +92,16 @@ class AppListTab extends ConsumerWidget {
     }
 
     return RefreshIndicator(
-      onRefresh: () => ref.read(appListViewModelProvider.notifier).loadInstalledApps(),
+      onRefresh: () =>
+          ref.read(appListViewModelProvider.notifier).loadInstalledApps(),
       child: ListView.builder(
         padding: const EdgeInsets.all(12),
         itemCount: appListState.apps.length,
         itemBuilder: (context, index) {
           final app = appListState.apps[index];
-          final limit = ref.read(appListViewModelProvider.notifier).getLimitForApp(app.packageName);
+          final limit = ref
+              .read(appListViewModelProvider.notifier)
+              .getLimitForApp(app.packageName);
 
           return AppCard(
             app: app,
@@ -106,11 +109,8 @@ class AppListTab extends ConsumerWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => AppDetailScreen(app: app),
-                ),
+                MaterialPageRoute(builder: (_) => AppDetailScreen(app: app)),
               ).then((_) {
-                // Refresh list when returning from detail screen
                 ref.read(appListViewModelProvider.notifier).loadInstalledApps();
               });
             },

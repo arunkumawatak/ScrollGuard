@@ -1,4 +1,3 @@
-// lib/presentation/screens/splash_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../viewmodels/auth_viewmodel.dart';
@@ -15,7 +14,6 @@ class SplashScreen extends ConsumerWidget {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (authState.user != null) {
-        // Request permissions before going to home
         await PermissionHelper.requestAllPermissions();
         if (context.mounted) {
           Navigator.pushReplacement(

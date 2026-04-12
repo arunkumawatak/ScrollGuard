@@ -1,4 +1,3 @@
-// lib/presentation/widgets/custom_graph.dart
 import 'package:flutter/material.dart';
 
 class CustomBarGraph extends StatelessWidget {

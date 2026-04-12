@@ -1,5 +1,3 @@
-// lib/presentation/viewmodels/app_list_viewmodel.dart
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import '../../core/method_channel.dart';
 import '../../data/models/app_info.dart';
@@ -37,7 +35,6 @@ class AppListViewModel extends StateNotifier<AppListState> {
       final rawApps = await ScrollGuardChannel.getInstalledApps();
       final apps = rawApps.map((e) => AppInfo.fromMap(e)).toList();
 
-      // Sort: Put apps with limits first
       apps.sort((a, b) {
         final hasLimitA = HiveRepository.getAppLimit(a.packageName) != null;
         final hasLimitB = HiveRepository.getAppLimit(b.packageName) != null;
