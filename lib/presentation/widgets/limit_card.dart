@@ -5,11 +5,7 @@ class LimitCard extends StatelessWidget {
   final AppLimit limit;
   final VoidCallback onEdit;
 
-  const LimitCard({
-    super.key,
-    required this.limit,
-    required this.onEdit,
-  });
+  const LimitCard({super.key, required this.limit, required this.onEdit});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +29,10 @@ class LimitCard extends StatelessWidget {
                 children: [
                   Text(
                     '${limit.limitMinutes} minutes per day',
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
@@ -46,10 +45,7 @@ class LimitCard extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: onEdit,
-            ),
+            IconButton(icon: const Icon(Icons.edit), onPressed: onEdit),
           ],
         ),
       ),

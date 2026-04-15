@@ -1,4 +1,3 @@
-// lib/data/models/app_info.dart
 class AppInfo {
   final String name;
   final String packageName;
