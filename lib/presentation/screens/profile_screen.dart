@@ -8,7 +8,7 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(authViewModelProvider);
+    // final authState = ref.watch(authViewModelProvider);
     final authViewModel = ref.read(authViewModelProvider.notifier);
 
     final userName = authViewModel.userName ?? "User";

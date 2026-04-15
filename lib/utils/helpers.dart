@@ -1,4 +1,3 @@
-// lib/utils/helpers.dart
 import 'package:intl/intl.dart';
 
 class Helpers {
@@ -21,7 +20,6 @@ class Helpers {
   }
 
   static String getAppNameFromPackage(String packageName) {
-    // You can improve this by storing app names
     return packageName.split('.').last;
   }
 }

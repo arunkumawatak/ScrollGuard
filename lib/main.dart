@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart'; 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'data/repositories/hive_repository.dart';
 import 'presentation/screens/splash_screen.dart';
 import 'core/theme.dart';
@@ -10,11 +10,7 @@ void main() async {
   await Firebase.initializeApp();
   await HiveRepository.init();
 
-  runApp(
-    const ProviderScope(  
-      child: ScrollGuardApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: ScrollGuardApp()));
 }
 
 class ScrollGuardApp extends StatelessWidget {

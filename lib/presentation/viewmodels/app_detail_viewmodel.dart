@@ -3,9 +3,10 @@ import '../../data/models/limit_model.dart';
 import '../../data/repositories/hive_repository.dart';
 import '../../core/method_channel.dart';
 
-final appDetailViewModelProvider = StateNotifierProvider.family<AppDetailViewModel, AppDetailState, String>(
-  (ref, packageName) => AppDetailViewModel(packageName),
-);
+final appDetailViewModelProvider =
+    StateNotifierProvider.family<AppDetailViewModel, AppDetailState, String>(
+      (ref, packageName) => AppDetailViewModel(packageName),
+    );
 
 class AppDetailState {
   final AppLimit? currentLimit;
@@ -14,7 +15,11 @@ class AppDetailState {
 
   AppDetailState({this.currentLimit, this.isSaving = false, this.error});
 
-  AppDetailState copyWith({AppLimit? currentLimit, bool? isSaving, String? error}) {
+  AppDetailState copyWith({
+    AppLimit? currentLimit,
+    bool? isSaving,
+    String? error,
+  }) {
     return AppDetailState(
       currentLimit: currentLimit ?? this.currentLimit,
       isSaving: isSaving ?? this.isSaving,

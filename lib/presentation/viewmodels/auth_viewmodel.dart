@@ -86,7 +86,6 @@ class AuthViewModel extends StateNotifier<AuthState> {
     }
   }
 
-  // Getters for user info
   String? get userName => HiveRepository.userBox.get('currentUser')?['name'];
   String? get userEmail => HiveRepository.userBox.get('currentUser')?['email'];
   String? get photoUrl => HiveRepository.userBox.get('currentUser')?['photoUrl'];
