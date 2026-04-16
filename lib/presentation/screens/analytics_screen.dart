@@ -3,18 +3,27 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:scrollguard/presentation/widgets/custom_graph.dart';
 
-final analyticsViewModelProvider = StateNotifierProvider<AnalyticsViewModel, AnalyticsState>(
-  (ref) => AnalyticsViewModel(),
-);
+final analyticsViewModelProvider =
+    StateNotifierProvider<AnalyticsViewModel, AnalyticsState>(
+      (ref) => AnalyticsViewModel(),
+    );
 
 class AnalyticsState {
   final Map<String, int> dailyUsage;
   final bool isLoading;
   final String? error;
 
-  AnalyticsState({this.dailyUsage = const {}, this.isLoading = false, this.error});
+  AnalyticsState({
+    this.dailyUsage = const {},
+    this.isLoading = false,
+    this.error,
+  });
 
-  AnalyticsState copyWith({Map<String, int>? dailyUsage, bool? isLoading, String? error}) {
+  AnalyticsState copyWith({
+    Map<String, int>? dailyUsage,
+    bool? isLoading,
+    String? error,
+  }) {
     return AnalyticsState(
       dailyUsage: dailyUsage ?? this.dailyUsage,
       isLoading: isLoading ?? this.isLoading,
@@ -63,11 +72,17 @@ class AnalyticsScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Weekly Screen Time', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  const Text(
+                    'Weekly Screen Time',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(height: 16),
                   CustomBarGraph(data: analyticsState.dailyUsage),
                   const SizedBox(height: 32),
-                  const Text('Most Used Apps', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                  const Text(
+                    'Most Used Apps',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  ),
                   const SizedBox(height: 12),
                   Card(
                     child: ListTile(
