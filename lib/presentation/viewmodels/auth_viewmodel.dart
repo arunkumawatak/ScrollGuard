@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import '../../data/services/firebase_service.dart';
@@ -88,5 +87,6 @@ class AuthViewModel extends StateNotifier<AuthState> {
 
   String? get userName => HiveRepository.userBox.get('currentUser')?['name'];
   String? get userEmail => HiveRepository.userBox.get('currentUser')?['email'];
-  String? get photoUrl => HiveRepository.userBox.get('currentUser')?['photoUrl'];
+  String? get photoUrl =>
+      HiveRepository.userBox.get('currentUser')?['photoUrl'];
 }

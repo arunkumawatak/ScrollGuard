@@ -38,7 +38,10 @@ class SplashScreen extends ConsumerWidget {
           children: [
             Icon(Icons.shield_outlined, size: 90, color: Colors.deepPurple),
             SizedBox(height: 24),
-            Text('ScrollGuard', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
+            Text(
+              'ScrollGuard',
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 8),
             Text('Reclaim your focus'),
             SizedBox(height: 40),
