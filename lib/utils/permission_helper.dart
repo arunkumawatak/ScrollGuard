@@ -32,4 +32,4 @@ class PermissionHelper {
     await requestOverlayPermission();
     await Permission.notification.request();
   }
-} 
+}

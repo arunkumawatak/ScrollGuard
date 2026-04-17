@@ -8,7 +8,6 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final authState = ref.watch(authViewModelProvider);
     final authViewModel = ref.read(authViewModelProvider.notifier);
 
     final userName = authViewModel.userName ?? "User";
@@ -20,12 +19,12 @@ class ProfileScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            const CircleAvatar(
-              radius: 60,
-              child: Icon(Icons.person, size: 80),
-            ),
+            const CircleAvatar(radius: 60, child: Icon(Icons.person, size: 80)),
             const SizedBox(height: 24),
-            Text(userName, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            Text(
+              userName,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
             Text(userEmail, style: const TextStyle(color: Colors.grey)),
             const SizedBox(height: 40),
 

@@ -19,7 +19,11 @@ class LoginScreen extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Icon(Icons.shield_outlined, size: 100, color: Colors.deepPurple),
+              const Icon(
+                Icons.shield_outlined,
+                size: 100,
+                color: Colors.deepPurple,
+              ),
               const SizedBox(height: 40),
               const Text(
                 'Welcome to ScrollGuard',
@@ -48,10 +52,15 @@ class LoginScreen extends ConsumerWidget {
                     }
                   },
                   icon: const Icon(Icons.g_mobiledata, size: 28),
-                  label: const Text('Continue with Google', style: TextStyle(fontSize: 18)),
+                  label: const Text(
+                    'Continue with Google',
+                    style: TextStyle(fontSize: 18),
+                  ),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
 

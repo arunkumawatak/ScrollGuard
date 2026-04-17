@@ -7,7 +7,9 @@ class CustomBarGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final maxValue = data.values.isNotEmpty ? data.values.reduce((a, b) => a > b ? a : b) : 100;
+    final maxValue = data.values.isNotEmpty
+        ? data.values.reduce((a, b) => a > b ? a : b)
+        : 100;
     final days = data.keys.toList();
 
     return Container(
@@ -36,7 +38,9 @@ class CustomBarGraph extends StatelessWidget {
                       height: height,
                       decoration: BoxDecoration(
                         color: Colors.deepPurple,
-                        borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(8),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 6),
