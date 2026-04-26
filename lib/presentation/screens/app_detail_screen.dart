@@ -79,7 +79,7 @@ class _AppDetailScreenState extends ConsumerState<AppDetailScreen> {
               "Set Daily Limit",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
-
+//show minutes here
             Wrap(
               spacing: 8,
               children: Constants.predefinedLimits.map((minutes) {

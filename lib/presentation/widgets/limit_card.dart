@@ -10,7 +10,7 @@ class LimitCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isBlockMode = limit.mode == "block";
-
+//custom card for app detail
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: Padding(
