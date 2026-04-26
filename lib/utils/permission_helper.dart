@@ -17,7 +17,8 @@ class PermissionHelper {
     return true;
   }
 
-  static Future<bool> requestOverlayPermission() async {
+  static Future<bool>
+   requestOverlayPermission() async {
     if (!Platform.isAndroid) return false;
     final status = await Permission.systemAlertWindow.status;
     if (!status.isGranted) {
