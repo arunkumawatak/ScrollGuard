@@ -94,8 +94,7 @@ class _AppDetailScreenState extends ConsumerState<AppDetailScreen> {
             ),
 
             const SizedBox(height: 24),
-
-            const Text(
+ const Text(
               "Mode",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),

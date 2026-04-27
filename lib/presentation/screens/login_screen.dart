@@ -63,8 +63,7 @@ class LoginScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-
-              if (authState.error != null)
+     if (authState.error != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 16),
                   child: Text(
