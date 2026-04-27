@@ -13,7 +13,7 @@ class HiveRepository {
   static Box<Map> get userBox => Hive.box(Constants.hiveUserBox);
 
   static Box<Map> get limitsBox => Hive.box(Constants.hiveLimitsBox);
-
+//save limits
   static Future<void> saveAppLimit(AppLimit limit) async {
     await limitsBox.put(limit.packageName, limit.toJson());
   }
@@ -23,7 +23,7 @@ class HiveRepository {
     if (data == null) return null;
     return AppLimit.fromJson(Map<String, dynamic>.from(data));
   }
-
+//get all app limits
   static List<AppLimit> getAllLimits() {
     return limitsBox.values
         .map((e) => AppLimit.fromJson(Map<String, dynamic>.from(e)))
@@ -31,7 +31,7 @@ class HiveRepository {
   }
 
   static Box<Map> get usageBox => Hive.box(Constants.hiveUsageBox);
-
+//for remove all data
   static Future<void> clearAll() async {
     await userBox.clear();
     await limitsBox.clear();
