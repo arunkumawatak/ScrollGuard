@@ -27,7 +27,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ScrollGuardChannel.startMonitoring();
     });
   }
-
+//bottom bar list
   final List<Widget> _screens = [
     const AppListTab(),
     const AnalyticsScreen(),

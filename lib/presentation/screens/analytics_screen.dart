@@ -36,7 +36,7 @@ class AnalyticsViewModel extends StateNotifier<AnalyticsState> {
   AnalyticsViewModel() : super(AnalyticsState()) {
     loadUsageData();
   }
-
+//week days
   Future<void> loadUsageData() async {
     state = state.copyWith(isLoading: true);
 
