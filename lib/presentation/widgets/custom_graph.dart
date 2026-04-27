@@ -21,6 +21,7 @@ class CustomBarGraph extends StatelessWidget {
       ),
       child: Column(
         children: [
+          //for show custom graph
           Expanded(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
