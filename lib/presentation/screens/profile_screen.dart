@@ -42,7 +42,7 @@ class ProfileScreen extends ConsumerWidget {
             const Divider(),
 
             const Spacer(),
-
+//logout button
             ElevatedButton.icon(
               onPressed: () async {
                 await authViewModel.signOut();
