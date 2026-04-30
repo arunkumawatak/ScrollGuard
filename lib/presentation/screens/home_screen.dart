@@ -9,7 +9,7 @@ import 'app_detail_screen.dart';
 import 'analytics_screen.dart';
 import 'profile_screen.dart';
 import 'about_screen.dart';
-
+//main screen
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
