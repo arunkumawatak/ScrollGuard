@@ -55,7 +55,6 @@ class AnalyticsViewModel extends StateNotifier<AnalyticsState> {
     );
   }
 }
-
 class AnalyticsScreen extends ConsumerWidget {
   const AnalyticsScreen({super.key});
 
