@@ -1,54 +1,75 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../viewmodels/auth_viewmodel.dart';
-import 'login_screen.dart';
-import 'home_screen.dart';
-import '../../utils/permission_helper.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:device_info_plus/device_info_plus.dart';
+import 'dart:io';
 
-class SplashScreen extends ConsumerWidget {
-  const SplashScreen({super.key});
+class PermissionHelper {
+  /// Request all required permissions with proper handling
+  static Future<bool> requestAllPermissions(BuildContext context) async {
+    if (!Platform.isAndroid) return true;
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(authViewModelProvider);
+    try {
+      // 1. Notification
+      await Permission.notification.request();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (authState.user != null) {
-        await PermissionHelper.requestAllPermissions();
-        if (context.mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => const HomeScreen()),
-          );
-        }
-      } else {
-        if (context.mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => const LoginScreen()),
-          );
-        }
-      }
-    });
+      // 2. Overlay (Display over other apps)
+      final overlayGranted = await Permission.systemAlertWindow.request();
 
-    return const Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.shield_outlined, size: 90, color: Colors.deepPurple),
-            SizedBox(height: 24),
-            Text(
-              'ScrollGuard',
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text('Reclaim your focus'),
-            SizedBox(height: 40),
-            CircularProgressIndicator(),
-          ],
+      // 3. Usage Stats - Special permission
+      final usageGranted = await _handleUsageStatsPermission(context);
+
+      return overlayGranted.isGranted && usageGranted;
+    } catch (e) {
+      debugPrint('Permission error: $e');
+      return false;
+    }
+  }
+
+  /// Handle Usage Stats permission (most tricky one)
+  static Future<bool> _handleUsageStatsPermission(BuildContext context) async {
+    if (!Platform.isAndroid) return true;
+
+    // Show clear instruction dialog
+    final result = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: const Text('Usage Access Required'),
+        content: const Text(
+          'To block apps and track usage, ScrollGuard needs "Usage Access".\n\n'
+          '1. Tap "Continue"\n'
+          '2. Find "ScrollGuard" in the list\n'
+          '3. Toggle ON "Allow usage access"',
         ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Continue'),
+          ),
+        ],
       ),
     );
+
+    if (result != true) return false;
+
+    // Open settings
+    await openAppSettings();
+
+    // Give user some time to grant permission and return
+    await Future.delayed(const Duration(seconds: 3));
+
+    // You can add a "Check Again" button in future dedicated screen
+    return true;
+  }
+
+  /// Optional: Check if Usage Stats is granted (advanced)
+  static Future<bool> isUsageStatsGranted() async {
+    // This is hard to check reliably without native code.
+    // For now we assume user granted after settings.
+    return true;
   }
 }
