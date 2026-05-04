@@ -1,3 +1,97 @@
+// import 'package:flutter/material.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import '../viewmodels/auth_viewmodel.dart';
+// import 'home_screen.dart';
+
+// class LoginScreen extends ConsumerWidget {
+//   const LoginScreen({super.key});
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final authState = ref.watch(authViewModelProvider);
+//     final authViewModel = ref.read(authViewModelProvider.notifier);
+
+//     // Listen for successful login and navigate
+//     ref.listen(authViewModelProvider, (previous, next) {
+//       if (next.user != null && previous?.user == null && context.mounted) {
+//         Navigator.pushReplacement(
+//           context,
+//           MaterialPageRoute(builder: (_) => const HomeScreen()),
+//         );
+//       }
+//     });
+
+//     return Scaffold(
+//       body: SafeArea(
+//         child: Padding(
+//           padding: const EdgeInsets.all(24.0),
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             crossAxisAlignment: CrossAxisAlignment.stretch,
+//             children: [
+//               const Icon(
+//                 Icons.shield_outlined,
+//                 size: 100,
+//                 color: Colors.deepPurple,
+//               ),
+//               const SizedBox(height: 40),
+//               const Text(
+//                 'Welcome to ScrollGuard',
+//                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+//                 textAlign: TextAlign.center,
+//               ),
+//               const SizedBox(height: 12),
+//               const Text(
+//                 'Take control of your screen time',
+//                 style: TextStyle(fontSize: 16, color: Colors.grey),
+//                 textAlign: TextAlign.center,
+//               ),
+//               const SizedBox(height: 60),
+
+//               if (authState.isLoading)
+//                 const Center(child: CircularProgressIndicator())
+//               else
+//                 ElevatedButton.icon(
+//                   onPressed: () async {
+//                     await authViewModel.signInWithGoogle();
+//                     // Navigation is now handled by ref.listen above
+//                   },
+//                   icon: const Icon(Icons.g_mobiledata, size: 28),
+//                   label: const Text(
+//                     'Continue with Google',
+//                     style: TextStyle(fontSize: 18),
+//                   ),
+//                   style: ElevatedButton.styleFrom(
+//                     padding: const EdgeInsets.symmetric(vertical: 16),
+//                     shape: RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(12),
+//                     ),
+//                   ),
+//                 ),
+
+//               if (authState.error != null)
+//                 Padding(
+//                   padding: const EdgeInsets.only(top: 16),
+//                   child: Text(
+//                     authState.error!,
+//                     style: const TextStyle(color: Colors.red),
+//                     textAlign: TextAlign.center,
+//                   ),
+//                 ),
+
+//               const SizedBox(height: 40),
+//               const Text(
+//                 'By continuing, you agree to reduce your screen addiction',
+//                 style: TextStyle(fontSize: 12, color: Colors.grey),
+//                 textAlign: TextAlign.center,
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../viewmodels/auth_viewmodel.dart';
@@ -10,6 +104,16 @@ class LoginScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authViewModelProvider);
     final authViewModel = ref.read(authViewModelProvider.notifier);
+
+    // Auto navigate when user is available
+    ref.listen(authViewModelProvider, (previous, next) {
+      if (next.user != null && (previous?.user == null || previous == null) && context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
+        );
+      }
+    });
 
     return Scaffold(
       body: SafeArea(
@@ -36,20 +140,25 @@ class LoginScreen extends ConsumerWidget {
                 style: TextStyle(fontSize: 16, color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 60),
+              const SizedBox(height: 80),
 
+              // Main Loading / Button Area
               if (authState.isLoading)
-                const Center(child: CircularProgressIndicator())
+                const Column(
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 24),
+                    Text(
+                      'Signing in with Google...\nPlease wait',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                )
               else
                 ElevatedButton.icon(
                   onPressed: () async {
                     await authViewModel.signInWithGoogle();
-                    if (authState.user != null && context.mounted) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (_) => const HomeScreen()),
-                      );
-                    }
                   },
                   icon: const Icon(Icons.g_mobiledata, size: 28),
                   label: const Text(
@@ -63,17 +172,18 @@ class LoginScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-     if (authState.error != null)
+
+              if (authState.error != null)
                 Padding(
-                  padding: const EdgeInsets.only(top: 16),
+                  padding: const EdgeInsets.only(top: 24),
                   child: Text(
                     authState.error!,
-                    style: const TextStyle(color: Colors.red),
+                    style: const TextStyle(color: Colors.red, fontSize: 15),
                     textAlign: TextAlign.center,
                   ),
                 ),
 
-              const SizedBox(height: 40),
+              const SizedBox(height: 60),
               const Text(
                 'By continuing, you agree to reduce your screen addiction',
                 style: TextStyle(fontSize: 12, color: Colors.grey),

@@ -1,5 +1,5 @@
 class Constants {
-  static const String methodChannel = "com.scrollguard/methods";
+  static const String methodChannel = "scroll_guard";
   static const String hiveUserBox = 'user';
   static const String hiveLimitsBox = 'limits';
   static const String hiveUsageBox = 'usage';
