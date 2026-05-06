@@ -36,6 +36,21 @@ class MainActivity : FlutterActivity() {
                     result.success(hasUsageStatsPermission())
                 }
 
+
+//  for set limit 
+"setAppLimit" -> {
+    val packageName = call.argument<String>("packageName")
+    val limitMinutes = call.argument<Int>("limitMinutes") ?: 0
+    val mode = call.argument<String>("mode") ?: "notification"
+    
+    if (packageName != null) {
+        LimitManager.saveLimit(this, packageName, limitMinutes, mode)
+        result.success(true)
+    } else {
+        result.error("INVALID_ARGS", "Missing packageName", null)
+    }
+}
+
                 // ================= INSTALLED APPS =================
                 "getInstalledApps" -> {
                     result.success(getInstalledApps())

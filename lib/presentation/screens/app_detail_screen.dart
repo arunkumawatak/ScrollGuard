@@ -33,13 +33,23 @@ class _AppDetailScreenState extends ConsumerState<AppDetailScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final existingLimit = HiveRepository.getAppLimit(widget.app.packageName);
-
-    if (existingLimit != null) {
-      selectedMode = existingLimit.mode;
-      selectedLimit = existingLimit.limitMinutes;
+  void initState() {
+    super.initState();
+    final existing = HiveRepository.getAppLimit(widget.app.packageName);
+    if (existing != null) {
+      selectedMode = existing.mode;
+      selectedLimit = existing.limitMinutes;
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    //   final existingLimit = HiveRepository.getAppLimit(widget.app.packageName);
+
+    //   if (existingLimit != null) {
+    //     selectedMode = existingLimit.mode;
+    //     selectedLimit = existingLimit.limitMinutes;
+    //   }
     final iconBytes = _decodeIcon(widget.app.iconBase64);
     return Scaffold(
       appBar: AppBar(title: Text(widget.app.name)),
@@ -79,7 +89,7 @@ class _AppDetailScreenState extends ConsumerState<AppDetailScreen> {
               "Set Daily Limit",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
-//show minutes here
+            //show minutes here
             Wrap(
               spacing: 8,
               children: Constants.predefinedLimits.map((minutes) {
@@ -94,7 +104,7 @@ class _AppDetailScreenState extends ConsumerState<AppDetailScreen> {
             ),
 
             const SizedBox(height: 24),
- const Text(
+            const Text(
               "Mode",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),

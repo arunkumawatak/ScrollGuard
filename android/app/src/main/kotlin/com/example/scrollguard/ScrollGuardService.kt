@@ -8,6 +8,7 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import androidx.core.app.NotificationCompat
+import android.app.usage.UsageStatsManager
 
 class ScrollGuardService : Service() {
 
@@ -64,16 +65,30 @@ class ScrollGuardService : Service() {
     }
 
     private fun getCurrentForegroundPackage(): String? {
-        // Advanced implementation using UsageEvents recommended for accuracy.
-        // Placeholder for now.
-        return null
-    }
+    // Better implementation using UsageStats (you can improve further with UsageEvents)
+    val usageStatsManager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+    val time = System.currentTimeMillis()
+    val stats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, time - 1000*60, time)
+    
+    return stats?.maxByOrNull { it.lastTimeUsed }?.packageName
+}
 
-    private fun shouldBlockApp(packageName: String): Boolean {
-        // In real app, read from Hive via Flutter or sync limits to native storage.
-        return false // Replace with actual logic
-    }
+  private fun shouldBlockApp(packageName: String): Boolean {
+    val limitMin = LimitManager.getLimitMinutes(this, packageName)
+    if (limitMin <= 0) return false
 
+    val mode = LimitManager.getMode(this, packageName)
+    if (mode != "block") return false  // For now only block mode does hard block
+
+    // TODO: Track actual usage time (you need a usage tracker)
+    // For testing: return true if you want to force block
+    val usage = getTodayUsage(packageName)  // implement this
+    return usage >= limitMin
+}
+private fun getTodayUsage(packageName: String): Int {
+    // Use UsageStatsManager to get today's foreground time
+    return 0 // placeholder
+}
     private fun launchBlockingOverlay(packageName: String) {
         val intent = Intent(this, BlockingOverlayActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP

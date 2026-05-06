@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'constants.dart';
 
@@ -20,7 +21,9 @@ class ScrollGuardChannel {
     try {
       await platform.invokeMethod('startMonitoring');
     } catch (e) {
-      print('Error starting monitoring: $e');
+      if (kDebugMode) {
+        print('Error starting monitoring: $e');
+      }
     }
   }
 
