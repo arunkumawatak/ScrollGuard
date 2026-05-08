@@ -7,9 +7,7 @@ class ScrollGuardChannel {
 
   static Future<List<Map<String, dynamic>>> getInstalledApps() async {
     try {
-      final List<dynamic> result = await platform.invokeMethod(
-        'getInstalledApps',
-      );
+      final List<dynamic> result = await platform.invokeMethod('getInstalledApps');
       return result.map((e) => Map<String, dynamic>.from(e as Map)).toList();
     } catch (e) {
       print('Error getting installed apps: $e');
@@ -27,19 +25,25 @@ class ScrollGuardChannel {
     }
   }
 
-  static Future<void> setAppLimit({
+  // 🔥 FIXED - Now returns bool (success/failure)
+  static Future<bool> setAppLimit({
     required String packageName,
     required int limitMinutes,
     required String mode,
   }) async {
     try {
-      await platform.invokeMethod('setAppLimit', {
-        'packageName': packageName,
-        'limitMinutes': limitMinutes,
-        'mode': mode,
-      });
+      final result = await platform.invokeMethod<bool>(
+        'setAppLimit',
+        {
+          'packageName': packageName,
+          'limitMinutes': limitMinutes,
+          'mode': mode,
+        },
+      );
+      return result ?? false;
     } catch (e) {
       print('Error setting limit: $e');
+      return false;
     }
   }
 }

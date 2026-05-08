@@ -8,18 +8,27 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Build
+import android.os.Bundle
 import android.os.Process
-
+import android.util.Log
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
-
 import java.io.ByteArrayOutputStream
 
 class MainActivity : FlutterActivity() {
 
-    // ✅ SINGLE channel for everything
     private val CHANNEL = "scroll_guard"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // 🔥 Auto start monitoring service when app opens
+        android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+            ScrollGuardService.startService(this)
+            Log.d("ScrollGuard", "🚀 Service auto-started from MainActivity")
+        }, 1500) // 1.5 seconds delay
+    }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -36,20 +45,20 @@ class MainActivity : FlutterActivity() {
                     result.success(hasUsageStatsPermission())
                 }
 
+                // ================= SET APP LIMIT =================
+                "setAppLimit" -> {
+                    val packageName = call.argument<String>("packageName")
+                    val limitMinutes = call.argument<Int>("limitMinutes") ?: 0
+                    val mode = call.argument<String>("mode") ?: "notification"
 
-//  for set limit 
-"setAppLimit" -> {
-    val packageName = call.argument<String>("packageName")
-    val limitMinutes = call.argument<Int>("limitMinutes") ?: 0
-    val mode = call.argument<String>("mode") ?: "notification"
-    
-    if (packageName != null) {
-        LimitManager.saveLimit(this, packageName, limitMinutes, mode)
-        result.success(true)
-    } else {
-        result.error("INVALID_ARGS", "Missing packageName", null)
-    }
-}
+                    if (packageName != null) {
+                        LimitManager.saveLimit(this, packageName, limitMinutes, mode)
+                        Log.d("ScrollGuard", "💾 Limit saved for $packageName | $limitMinutes min | Mode: $mode")
+                        result.success(true)
+                    } else {
+                        result.error("INVALID_ARGS", "Missing packageName", null)
+                    }
+                }
 
                 // ================= INSTALLED APPS =================
                 "getInstalledApps" -> {
@@ -64,8 +73,9 @@ class MainActivity : FlutterActivity() {
 
                 // ================= START SERVICE =================
                 "startMonitoring" -> {
-                    startScrollGuardService()
-                    result.success(null)
+                    ScrollGuardService.startService(this)
+                    Log.d("ScrollGuard", "✅ startMonitoring called from Flutter")
+                    result.success(true)
                 }
 
                 else -> result.notImplemented()
@@ -92,16 +102,6 @@ class MainActivity : FlutterActivity() {
         }
 
         return mode == AppOpsManager.MODE_ALLOWED
-    }
-
-    // ====================== SERVICE ======================
-    private fun startScrollGuardService() {
-        val intent = Intent(this, ScrollGuardService::class.java)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(intent)
-        } else {
-            startService(intent)
-        }
     }
 
     // ====================== INSTALLED APPS ======================
@@ -153,8 +153,7 @@ class MainActivity : FlutterActivity() {
 
     // ====================== USAGE STATS ======================
     private fun getUsageStats(days: Int): List<Map<String, Any>> {
-        val usageStatsManager =
-            getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+        val usageStatsManager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
 
         val calendar = java.util.Calendar.getInstance()
         calendar.add(java.util.Calendar.DAY_OF_YEAR, -days)

@@ -10,6 +10,9 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+    <!-- Accessibility Permission -->
+    <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
+
     <!-- Keep if needed -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
@@ -23,7 +26,7 @@
         android:fullBackupContent="false"
         tools:targetApi="34">
 
-        <!-- Main Flutter Activity (RESTORED FULLY) -->
+        <!-- Main Flutter Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -43,7 +46,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Overlay Activity (slightly safer launchMode) -->
+        <!-- Blocking Overlay Activity -->
         <activity
             android:name=".BlockingOverlayActivity"
             android:theme="@style/Theme.Transparent"
@@ -51,11 +54,27 @@
             android:launchMode="singleTask"
             android:exported="false" />
 
-        <!-- Foreground Service (FIXED only this) -->
+        <!-- Foreground Service -->
         <service
             android:name=".ScrollGuardService"
             android:foregroundServiceType="dataSync"
             android:exported="false" />
+
+        <!-- 🔥 NEW: Accessibility Service -->
+        <service
+            android:name=".ScrollGuardAccessibilityService"
+            android:label="ScrollGuard"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="false">
+            
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibilityservice_config" />
+        </service>
 
         <!-- Flutter Embedding -->
         <meta-data

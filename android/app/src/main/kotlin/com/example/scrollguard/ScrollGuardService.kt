@@ -7,8 +7,11 @@ import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import android.app.usage.UsageStatsManager
+import java.util.SortedMap
+import java.util.TreeMap
 
 class ScrollGuardService : Service() {
 
@@ -32,66 +35,72 @@ class ScrollGuardService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Log.d("ScrollGuard", "✅ Service Started Successfully")
         createNotificationChannel()
-        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("ScrollGuard")
-            .setContentText("Monitoring app usage & limits")
-            .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
-            .build()
-
-        startForeground(NOTIFICATION_ID, notification)
-
+        startForeground(NOTIFICATION_ID, createNotification())
         handler.post(monitorRunnable)
         return START_STICKY
     }
 
-    private fun monitorForegroundApp() {
-        // In full production, use UsageEvents to detect foreground change more accurately.
-        // For this version, we simulate by checking current limits (you can expand later).
+    private fun createNotification(): Notification {
+        return NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle("ScrollGuard Active")
+            .setContentText("Enforcing app limits")
+            .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .build()
+    }
 
-        // Example: Get current foreground package (placeholder)
+    private fun monitorForegroundApp() {
         val currentPackage = getCurrentForegroundPackage()
 
         if (currentPackage != null) {
-            // Here you would read limit from SharedPreferences or send to Flutter via event channel.
-            // For simplicity, we assume limit check is done and if exceeded + block mode, launch overlay.
-            if (shouldBlockApp(currentPackage)) {
-                launchBlockingOverlay(currentPackage)
+            Log.d("ScrollGuard", "✅ Foreground App Detected: $currentPackage")
+
+            if (LimitManager.hasLimit(this, currentPackage)) {
+                val limit = LimitManager.getLimitMinutes(this, currentPackage)
+                val mode = LimitManager.getMode(this, currentPackage)
+
+                Log.d("ScrollGuard", "🔥 LIMIT FOUND → $currentPackage | ${limit}min | Mode: $mode")
+
+                if (mode == "block") {
+                    Log.d("ScrollGuard", "🚫 BLOCKING → Launching overlay")
+                    launchBlockingOverlay(currentPackage)
+                }
             }
         }
 
-        handler.postDelayed(monitorRunnable, 3000) // Check every 3 seconds
+        handler.postDelayed(monitorRunnable, 2000) // every 2 seconds
     }
 
+    // 🔥 Best version for Samsung + all devices
     private fun getCurrentForegroundPackage(): String? {
-    // Better implementation using UsageStats (you can improve further with UsageEvents)
-    val usageStatsManager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
-    val time = System.currentTimeMillis()
-    val stats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, time - 1000*60, time)
-    
-    return stats?.maxByOrNull { it.lastTimeUsed }?.packageName
-}
+        try {
+            val usm = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+            val now = System.currentTimeMillis()
+            val startTime = now - 300000 // Last 5 minutes (increased for Samsung)
 
-  private fun shouldBlockApp(packageName: String): Boolean {
-    val limitMin = LimitManager.getLimitMinutes(this, packageName)
-    if (limitMin <= 0) return false
+            val stats = usm.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startTime, now)
 
-    val mode = LimitManager.getMode(this, packageName)
-    if (mode != "block") return false  // For now only block mode does hard block
+            if (stats.isNotEmpty()) {
+                val sortedMap: SortedMap<Long, android.app.usage.UsageStats> = TreeMap()
+                for (usageStats in stats) {
+                    sortedMap[usageStats.lastTimeUsed] = usageStats
+                }
+                return sortedMap[sortedMap.lastKey()]?.packageName
+            }
+            return null
+        } catch (e: Exception) {
+            Log.e("ScrollGuard", "Error detecting foreground app", e)
+            return null
+        }
+    }
 
-    // TODO: Track actual usage time (you need a usage tracker)
-    // For testing: return true if you want to force block
-    val usage = getTodayUsage(packageName)  // implement this
-    return usage >= limitMin
-}
-private fun getTodayUsage(packageName: String): Int {
-    // Use UsageStatsManager to get today's foreground time
-    return 0 // placeholder
-}
     private fun launchBlockingOverlay(packageName: String) {
         val intent = Intent(this, BlockingOverlayActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or 
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP or 
+                    Intent.FLAG_ACTIVITY_SINGLE_TOP
             putExtra("blocked_package", packageName)
         }
         startActivity(intent)
@@ -104,8 +113,7 @@ private fun getTodayUsage(packageName: String): Int {
                 "ScrollGuard Monitoring",
                 NotificationManager.IMPORTANCE_LOW
             )
-            val manager = getSystemService(NotificationManager::class.java)
-            manager.createNotificationChannel(channel)
+            getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
         }
     }
 
