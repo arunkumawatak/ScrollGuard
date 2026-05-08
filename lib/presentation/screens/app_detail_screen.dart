@@ -119,7 +119,6 @@ class _AppDetailScreenState extends ConsumerState<AppDetailScreen> {
             ),
 
             const SizedBox(height: 32),
-
             ElevatedButton.icon(
               onPressed: () async {
                 final limit = AppLimit(
@@ -135,7 +134,9 @@ class _AppDetailScreenState extends ConsumerState<AppDetailScreen> {
                 );
 
                 await HiveRepository.saveAppLimit(limit);
-                await ScrollGuardChannel.setAppLimit(
+
+                // 🔥 Updated call
+                final success = await ScrollGuardChannel.setAppLimit(
                   packageName: widget.app.packageName,
                   limitMinutes: selectedLimit,
                   mode: selectedMode,
@@ -143,9 +144,18 @@ class _AppDetailScreenState extends ConsumerState<AppDetailScreen> {
 
                 if (mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Limit saved successfully!')),
+                    SnackBar(
+                      content: Text(
+                        success
+                            ? 'Limit saved successfully!'
+                            : 'Failed to save limit',
+                      ),
+                      backgroundColor: success ? Colors.green : Colors.red,
+                    ),
                   );
-                  Navigator.pop(context);
+                  if (success) {
+                    Navigator.pop(context);
+                  }
                 }
               },
               icon: const Icon(Icons.save),
@@ -154,6 +164,41 @@ class _AppDetailScreenState extends ConsumerState<AppDetailScreen> {
                 minimumSize: const Size(double.infinity, 56),
               ),
             ),
+            // ElevatedButton.icon(
+
+            //   onPressed: () async {
+            //     final limit = AppLimit(
+            //       packageName: widget.app.packageName,
+            //       limitMinutes: selectedLimit,
+            //       mode: selectedMode,
+            //       startTime: startTime != null
+            //           ? DateTime(2024, 1, 1, startTime!.hour, startTime!.minute)
+            //           : null,
+            //       endTime: endTime != null
+            //           ? DateTime(2024, 1, 1, endTime!.hour, endTime!.minute)
+            //           : null,
+            //     );
+
+            //     await HiveRepository.saveAppLimit(limit);
+            //     await ScrollGuardChannel.setAppLimit(
+            //       packageName: widget.app.packageName,
+            //       limitMinutes: selectedLimit,
+            //       mode: selectedMode,
+            //     );
+
+            //     if (mounted) {
+            //       ScaffoldMessenger.of(context).showSnackBar(
+            //         const SnackBar(content: Text('Limit saved successfully!')),
+            //       );
+            //       Navigator.pop(context);
+            //     }
+            //   },
+            //   icon: const Icon(Icons.save),
+            //   label: const Text("Save Limit"),
+            //   style: ElevatedButton.styleFrom(
+            //     minimumSize: const Size(double.infinity, 56),
+            //   ),
+            // ),
           ],
         ),
       ),

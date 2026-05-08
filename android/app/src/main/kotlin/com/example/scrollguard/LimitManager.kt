@@ -25,7 +25,14 @@ object LimitManager {
         return getPrefs(context).getString("${packageName}_mode", "notification") ?: "notification"
     }
 
+    fun hasLimit(context: Context, packageName: String): Boolean {
+        return getLimitMinutes(context, packageName) > 0
+    }
+
     fun removeLimit(context: Context, packageName: String) {
-        getPrefs(context).edit().remove("${packageName}_limit").remove("${packageName}_mode").apply()
+        getPrefs(context).edit()
+            .remove("${packageName}_limit")
+            .remove("${packageName}_mode")
+            .apply()
     }
 }
