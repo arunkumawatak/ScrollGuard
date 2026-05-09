@@ -2,18 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.scrollguard">
 
-    <!-- Core Permissions -->
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" tools:ignore="QueryAllPackagesPermission" />
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
-    <!-- Accessibility Permission -->
     <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
 
-    <!-- Keep if needed -->
+    <!-- Optional -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
@@ -26,7 +24,7 @@
         android:fullBackupContent="false"
         tools:targetApi="34">
 
-        <!-- Main Flutter Activity -->
+        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -46,7 +44,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Blocking Overlay Activity -->
+        <!-- Blocking Overlay -->
         <activity
             android:name=".BlockingOverlayActivity"
             android:theme="@style/Theme.Transparent"
@@ -60,7 +58,7 @@
             android:foregroundServiceType="dataSync"
             android:exported="false" />
 
-        <!-- 🔥 NEW: Accessibility Service -->
+        <!-- Accessibility Service -->
         <service
             android:name=".ScrollGuardAccessibilityService"
             android:label="ScrollGuard"
@@ -76,7 +74,7 @@
                 android:resource="@xml/accessibilityservice_config" />
         </service>
 
-        <!-- Flutter Embedding -->
+        <!-- Flutter -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
