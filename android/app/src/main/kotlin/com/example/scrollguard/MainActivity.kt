@@ -31,20 +31,48 @@ class MainActivity : FlutterActivity() {
     // }
 
     //change the on create funtion 9may
-    override fun onCreate(savedInstanceState: Bundle?) {
+//     override fun onCreate(savedInstanceState: Bundle?) {
+//     super.onCreate(savedInstanceState)
+
+//     android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+//         ScrollGuardService.startService(this)
+        
+//         // Prompt user to enable Accessibility Service
+//         promptAccessibilityService()
+        
+//         Log.d("ScrollGuard", "🚀 Service + Accessibility prompt started")
+//     }, 2000)
+// }
+
+override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
+    // Auto start everything
     android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
         ScrollGuardService.startService(this)
         
-        // Prompt user to enable Accessibility Service
-        promptAccessibilityService()
+        // Open Accessibility Settings so user can enable it
+        openAccessibilitySettings()
         
-        Log.d("ScrollGuard", "🚀 Service + Accessibility prompt started")
+        Log.d("ScrollGuard", "🚀 Service started + Accessibility prompt shown")
     }, 2000)
 }
 
-
+// 🔥 Add this new function
+private fun openAccessibilitySettings() {
+    try {
+        val intent = Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS)
+        startActivity(intent)
+        
+        android.widget.Toast.makeText(
+            this,
+            "Please ENABLE 'ScrollGuard' in the list",
+            android.widget.Toast.LENGTH_LONG
+        ).show()
+    } catch (e: Exception) {
+        Log.e("ScrollGuard", "Could not open accessibility settings", e)
+    }
+}
 //new func added 
 private fun promptAccessibilityService() {
     try {
