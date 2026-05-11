@@ -1,92 +1,3 @@
-// package com.example.scrollguard
-
-// import android.accessibilityservice.AccessibilityService
-// import android.content.Intent
-// import android.view.accessibility.AccessibilityEvent
-// import android.util.Log
-// import java.util.concurrent.TimeUnit
-
-// class ScrollGuardAccessibilityService : AccessibilityService() {
-
-//     companion object {
-//         var instance: ScrollGuardAccessibilityService? = null
-//     }
-
-//     private var currentPackage: String? = null
-//     private var lastUpdateTime = System.currentTimeMillis()
-
-//     override fun onServiceConnected() {
-//         super.onServiceConnected()
-//         instance = this
-//         Log.d("ScrollGuard", "✅ Accessibility Service Connected Successfully")
-//     }
-
-//     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
-//         if (event?.packageName == null) return
-
-//         val pkg = event.packageName.toString()
-
-//         // Ignore our own app
-//         if (pkg == this.packageName) return
-
-//         if (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
-//             Log.d("ScrollGuard", "🔍 Window changed → $pkg")
-
-//             if (pkg != currentPackage) {
-//                 // Add usage time to previous app
-//                 currentPackage?.let { prev ->
-//                     val elapsedMinutes = TimeUnit.MILLISECONDS.toMinutes(
-//                         System.currentTimeMillis() - lastUpdateTime
-//                     ).toInt().coerceAtLeast(1)
-
-//                     LimitManager.incrementUsage(this, prev, elapsedMinutes)
-//                     Log.d("ScrollGuard", "⏱️ Added $elapsedMinutes min to $prev")
-//                 }
-
-//                 currentPackage = pkg
-//                 lastUpdateTime = System.currentTimeMillis()
-
-//                 Log.d("ScrollGuard", "🚀 Switched to foreground: $pkg")
-//                 checkAndEnforceLimit(pkg)
-//             }
-//         }
-//     }
-
-//     private fun checkAndEnforceLimit(pkg: String) {
-//         if (LimitManager.isExceeded(this, pkg)) {
-//             val mode = LimitManager.getMode(this, pkg)
-//             Log.d("ScrollGuard", "🚨 LIMIT EXCEEDED for $pkg | Mode: $mode")
-
-//             if (mode == "block") {
-//                 launchBlockingOverlay(pkg)
-//             }
-//         }
-//     }
-
-//     private fun launchBlockingOverlay(pkg: String) {
-//         try {
-//             val intent = Intent(this, BlockingOverlayActivity::class.java).apply {
-//                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-//                         Intent.FLAG_ACTIVITY_CLEAR_TOP or
-//                         Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
-//                 putExtra("blocked_package", pkg)
-//             }
-//             startActivity(intent)
-//             Log.d("ScrollGuard", "🛡️ Blocking overlay started for $pkg")
-//         } catch (e: Exception) {
-//             Log.e("ScrollGuard", "Failed to launch overlay", e)
-//         }
-//     }
-
-//     override fun onInterrupt() {}
-    
-//     override fun onDestroy() {
-//         instance = null
-//         super.onDestroy()
-//     }
-// }
-
-
 package com.example.scrollguard
 
 import android.accessibilityservice.AccessibilityService
@@ -153,17 +64,24 @@ class ScrollGuardAccessibilityService : AccessibilityService() {
         handler.postDelayed(checkRunnable, 15000) // Continue checking
     }
 
-    private fun checkLimit(pkg: String) {
-        if (LimitManager.isExceeded(this, pkg)) {
-            val mode = LimitManager.getMode(this, pkg)
-            Log.d("ScrollGuard", "🚨 LIMIT EXCEEDED for $pkg | Mode: $mode")
+private fun checkLimit(pkg: String) {
+    if (LimitManager.isExceeded(this, pkg)) {
+        val mode = LimitManager.getMode(this, pkg)
+        Log.d("ScrollGuard", "🚨 LIMIT EXCEEDED for $pkg | Mode: $mode")
 
-            if (mode == "block") {
-                launchBlockingOverlay(pkg)
-            }
+        if (mode == "block") {
+            launchBlockingOverlay(pkg)
+        } else {
+            sendTimeUpNotification(pkg)
         }
     }
+}
 
+private fun sendTimeUpNotification(pkg: String) {
+    // TODO: Implement proper notification here later
+    Log.d("ScrollGuard", "🛎️ NOTIFICATION: Time's up for $pkg")
+    // You can show a real notification using NotificationManager
+}
     private fun launchBlockingOverlay(pkg: String) {
         try {
             val intent = Intent(this, BlockingOverlayActivity::class.java).apply {

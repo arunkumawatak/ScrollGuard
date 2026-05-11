@@ -3,7 +3,6 @@ package com.example.scrollguard
 import android.content.Context
 import android.content.SharedPreferences
 import java.util.Calendar
-import java.util.concurrent.TimeUnit
 
 object LimitManager {
     private const val LIMITS_PREF = "scrollguard_limits"
@@ -20,11 +19,10 @@ object LimitManager {
     }
 
     fun getLimitMinutes(context: Context, pkg: String): Int = limitsPrefs(context).getInt("${pkg}_limit", 0)
-    fun getMode(context: Context, pkg: String): String = limitsPrefs(context).getString("${pkg}_mode", "notify") ?: "notify"
+    fun getMode(context: Context, pkg: String): String = limitsPrefs(context).getString("${pkg}_mode", "notification") ?: "notification"
 
     fun hasLimit(context: Context, pkg: String) = getLimitMinutes(context, pkg) > 0
 
-    // Usage
     private fun todayKey(): String {
         val cal = Calendar.getInstance()
         return "${cal.get(Calendar.YEAR)}-${cal.get(Calendar.MONTH)+1}-${cal.get(Calendar.DAY_OF_MONTH)}"
@@ -45,7 +43,7 @@ object LimitManager {
         return getTodayUsage(context, pkg) >= getLimitMinutes(context, pkg)
     }
 
-    fun resetUsageForTesting(context: Context, pkg: String) {
+    fun resetTodayUsage(context: Context, pkg: String) {
         usagePrefs(context).edit().remove("${pkg}_${todayKey()}").apply()
     }
 }
