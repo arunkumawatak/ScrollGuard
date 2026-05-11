@@ -1,7 +1,10 @@
-<accessibility-service
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:packageNames="com.google.android.youtube,com.instagram.android"
-    android:accessibilityEventTypes="typeViewScrolled"
+<?xml version="1.0" encoding="utf-8"?>
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityEventTypes="typeWindowStateChanged|typeWindowsChanged|typeWindowContentChanged"
+    android:accessibilityFlags="flagDefault|flagRetrieveInteractiveWindows|flagIncludeNotImportantViews|flagReportViewIds"
     android:accessibilityFeedbackType="feedbackGeneric"
+    android:notificationTimeout="50"
     android:canRetrieveWindowContent="true"
+    android:canRequestEnhancedWebAccessibility="false"
+    android:canRequestFilterKeyEvents="false"
     android:description="@string/accessibility_service_description" />
