@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">scrollguard</string>
-    <string name="accessibility_service_description">ScrollGuard monitors scrolling to help limit mindless usage.</string>
+    <!-- <string name="accessibility_service_description">ScrollGuard monitors scrolling to help limit mindless usage.</string> -->
+<string name="accessibility_service_description">ScrollGuard monitors app usage to enforce your limits.</string>
 </resources>
