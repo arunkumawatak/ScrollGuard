@@ -32,7 +32,9 @@ class FirebaseService {
       );
       return userCredential.user;
     } catch (e) {
-      print('Google Sign-In error: $e');
+      if (kDebugMode) {
+        print('Google Sign-In error: $e');
+      }
       return null;
     }
   }
