@@ -9,7 +9,7 @@ import 'app_detail_screen.dart';
 import 'analytics_screen.dart';
 import 'profile_screen.dart';
 import 'about_screen.dart';
-//main screen
+
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
@@ -27,7 +27,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ScrollGuardChannel.startMonitoring();
     });
   }
-//bottom bar list
+
   final List<Widget> _screens = [
     const AppListTab(),
     const AnalyticsScreen(),
