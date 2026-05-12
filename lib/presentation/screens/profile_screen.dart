@@ -90,9 +90,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final authViewModel = ref.read(authViewModelProvider.notifier);
-    final userData = HiveRepository.userBox.get(
-      'currentUser',
-    ); 
+    final userData = HiveRepository.userBox.get('currentUser');
     final name = userData?['name'] ?? 'User';
     final email = userData?['email'] ?? 'No email';
     final photoUrl = userData?['photoUrl'];

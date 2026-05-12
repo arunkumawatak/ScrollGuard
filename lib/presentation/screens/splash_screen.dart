@@ -31,13 +31,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
     final authState = ref.read(authViewModelProvider);
 
-    // ✅ Handle permissions once
-    final allGranted =
-        await PermissionHelper.requestAllPermissions(context);
+    final allGranted = await PermissionHelper.requestAllPermissions(context);
 
     if (!mounted) return;
 
-    // ✅ Navigate
     if (authState.user != null) {
       Navigator.pushReplacement(
         context,
@@ -50,7 +47,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       );
     }
 
-    // ✅ Show warning
     if (!allGranted && mounted) {
       Future.delayed(const Duration(milliseconds: 500), () {
         if (!mounted) return;

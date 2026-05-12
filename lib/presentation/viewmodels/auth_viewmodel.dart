@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import '../../data/services/firebase_service.dart';
 import '../../data/repositories/hive_repository.dart';
@@ -71,7 +72,9 @@ class AuthViewModel extends StateNotifier<AuthState> {
       };
       await HiveRepository.userBox.put('currentUser', userData);
     } catch (e) {
-      print('Error saving user to Hive: $e');
+      if (kDebugMode) {
+        print('Error saving user to Hive: $e');
+      }
     }
   }
 
@@ -81,7 +84,9 @@ class AuthViewModel extends StateNotifier<AuthState> {
       await HiveRepository.clearAll();
       state = AuthState();
     } catch (e) {
-      print('Sign out error: $e');
+      if (kDebugMode) {
+        print('Sign out error: $e');
+      }
     }
   }
 
