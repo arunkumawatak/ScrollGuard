@@ -21,7 +21,8 @@ object MethodChannelHandler {
 
         val installedApps = pm.getInstalledApplications(PackageManager.GET_META_DATA)
         for (app in installedApps) {
-            if (pm.getLaunchIntentForPackage(app.packageName) != null) { // Only launchable apps
+            // Only launchable apps
+            if (pm.getLaunchIntentForPackage(app.packageName) != null) { 
                 val name = pm.getApplicationLabel(app).toString()
                 val icon = getAppIconBase64(pm, app)
                 apps.add(mapOf(
@@ -61,7 +62,7 @@ object MethodChannelHandler {
         return stats.map { usage ->
             mapOf(
                 "packageName" to usage.packageName,
-                "totalTime" to usage.totalTimeInForeground / 60000 // minutes
+                "totalTime" to usage.totalTimeInForeground / 60000 
             )
         }
     }

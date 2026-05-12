@@ -70,15 +70,15 @@ class ScrollGuardService : Service() {
             }
         }
 
-        handler.postDelayed(monitorRunnable, 2000) // every 2 seconds
+        handler.postDelayed(monitorRunnable, 2000) 
     }
 
-    // 🔥 Best version for Samsung + all devices
+// for all devices
     private fun getCurrentForegroundPackage(): String? {
         try {
             val usm = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
             val now = System.currentTimeMillis()
-            val startTime = now - 300000 // Last 5 minutes (increased for Samsung)
+            val startTime = now - 300000 // Last 5 minutes
 
             val stats = usm.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startTime, now)
 

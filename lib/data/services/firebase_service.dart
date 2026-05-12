@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter/foundation.dart';
 
 class FirebaseService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -14,7 +15,9 @@ class FirebaseService {
           .authenticate();
 
       if (googleUser == null) {
-        print('Google Sign-In cancelled by user');
+        if (kDebugMode) {
+          print('Google Sign-In cancelled by user');
+        }
         return null;
       }
 
@@ -29,17 +32,23 @@ class FirebaseService {
       );
       return userCredential.user;
     } catch (e) {
-      print('Google Sign-In error: $e');
+      if (kDebugMode) {
+        print('Google Sign-In error: $e');
+      }
       return null;
     }
   }
-//sign out button
+
+
+//sign out func
   Future<void> signOut() async {
     try {
       await _googleSignIn.signOut();
       await _auth.signOut();
     } catch (e) {
-      print('Sign out error: $e');
+      if (kDebugMode) {
+        print('Sign out error: $e');
+      }
     }
   }
 

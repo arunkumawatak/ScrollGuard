@@ -20,73 +20,47 @@ class MainActivity : FlutterActivity() {
 
     private val CHANNEL = "scroll_guard"
 
-    // override fun onCreate(savedInstanceState: Bundle?) {
-    //     super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    //     // 🔥 Auto start monitoring service when app opens
-    //     android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
-    //         ScrollGuardService.startService(this)
-    //         Log.d("ScrollGuard", "🚀 Service auto-started from MainActivity")
-    //     }, 1500) // 1.5 seconds delay
-    // }
-
-    //change the on create funtion 9may
-//     override fun onCreate(savedInstanceState: Bundle?) {
-//     super.onCreate(savedInstanceState)
-
-//     android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
-//         ScrollGuardService.startService(this)
-        
-//         // Prompt user to enable Accessibility Service
-//         promptAccessibilityService()
-        
-//         Log.d("ScrollGuard", "🚀 Service + Accessibility prompt started")
-//     }, 2000)
-// }
-
-override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-
-    // Auto start everything
-    android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
-        ScrollGuardService.startService(this)
-        
-        // Open Accessibility Settings so user can enable it
-        openAccessibilitySettings()
-        
-        Log.d("ScrollGuard", "🚀 Service started + Accessibility prompt shown")
-    }, 2000)
-}
-
-// 🔥 Add this new function
-private fun openAccessibilitySettings() {
-    try {
-        val intent = Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS)
-        startActivity(intent)
-        
-        android.widget.Toast.makeText(
-            this,
-            "Please ENABLE 'ScrollGuard' in the list",
-            android.widget.Toast.LENGTH_LONG
-        ).show()
-    } catch (e: Exception) {
-        Log.e("ScrollGuard", "Could not open accessibility settings", e)
+        // Auto start everything
+        android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+            ScrollGuardService.startService(this)
+            
+            // Open Accessibility Settings so user can enable it
+            openAccessibilitySettings()
+            
+            Log.d("ScrollGuard", "🚀 Service started + Accessibility prompt shown")
+        }, 2000)
     }
-}
-//new func added 
-private fun promptAccessibilityService() {
-    try {
-        val intent = Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS)
-        startActivity(intent)
-        android.widget.Toast.makeText(
-            this, 
-            "Please enable 'ScrollGuard' in Accessibility Settings", 
-            android.widget.Toast.LENGTH_LONG
-        ).show()
-    } catch (e: Exception) {
-        Log.e("ScrollGuard", "Failed to open accessibility settings", e)
+
+    private fun openAccessibilitySettings() {
+        try {
+            val intent = Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS)
+            startActivity(intent)
+            
+            android.widget.Toast.makeText(
+                this,
+                "Please ENABLE 'ScrollGuard' in the list",
+                android.widget.Toast.LENGTH_LONG
+            ).show()
+        } catch (e: Exception) {
+            Log.e("ScrollGuard", "Could not open accessibility settings", e)
+        }
     }
-}
+    private fun promptAccessibilityService() {
+        try {
+            val intent = Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS)
+            startActivity(intent)
+            android.widget.Toast.makeText(
+                this, 
+                "Please enable 'ScrollGuard' in Accessibility Settings", 
+                android.widget.Toast.LENGTH_LONG
+            ).show()
+        } catch (e: Exception) {
+            Log.e("ScrollGuard", "Failed to open accessibility settings", e)
+        }
+    }
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
@@ -97,12 +71,9 @@ private fun promptAccessibilityService() {
 
             when (call.method) {
 
-                // ================= PERMISSION =================
                 "checkUsagePermission" -> {
                     result.success(hasUsageStatsPermission())
                 }
-
-                // ================= SET APP LIMIT =================
                 "setAppLimit" -> {
                     val packageName = call.argument<String>("packageName")
                     val limitMinutes = call.argument<Int>("limitMinutes") ?: 0
@@ -117,18 +88,14 @@ private fun promptAccessibilityService() {
                     }
                 }
 
-                // ================= INSTALLED APPS =================
                 "getInstalledApps" -> {
                     result.success(getInstalledApps())
                 }
-
-                // ================= USAGE STATS =================
                 "getUsageStats" -> {
                     val days = call.argument<Int>("days") ?: 1
                     result.success(getUsageStats(days))
                 }
 
-                // ================= START SERVICE =================
                 "startMonitoring" -> {
                     ScrollGuardService.startService(this)
                     Log.d("ScrollGuard", "✅ startMonitoring called from Flutter")
@@ -140,7 +107,6 @@ private fun promptAccessibilityService() {
         }
     }
 
-    // ====================== USAGE PERMISSION ======================
     private fun hasUsageStatsPermission(): Boolean {
         val appOps = getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
 
@@ -161,7 +127,6 @@ private fun promptAccessibilityService() {
         return mode == AppOpsManager.MODE_ALLOWED
     }
 
-    // ====================== INSTALLED APPS ======================
     private fun getInstalledApps(): List<Map<String, Any>> {
         val pm: PackageManager = packageManager
         val apps = mutableListOf<Map<String, Any>>()
@@ -208,7 +173,6 @@ private fun promptAccessibilityService() {
         }
     }
 
-    // ====================== USAGE STATS ======================
     private fun getUsageStats(days: Int): List<Map<String, Any>> {
         val usageStatsManager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
 

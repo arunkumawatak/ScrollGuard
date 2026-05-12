@@ -23,6 +23,7 @@ class HiveRepository {
     if (data == null) return null;
     return AppLimit.fromJson(Map<String, dynamic>.from(data));
   }
+
 //get all app limits
   static List<AppLimit> getAllLimits() {
     return limitsBox.values
@@ -31,6 +32,7 @@ class HiveRepository {
   }
 
   static Box<Map> get usageBox => Hive.box(Constants.hiveUsageBox);
+
 //for remove all data
   static Future<void> clearAll() async {
     await userBox.clear();

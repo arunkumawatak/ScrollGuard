@@ -1,4 +1,3 @@
-// lib/data/models/usage_stats.dart
 class UsageStats {
   final String packageName;
   final int totalTimeMinutes;
