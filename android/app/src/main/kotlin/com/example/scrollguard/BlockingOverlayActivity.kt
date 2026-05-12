@@ -11,8 +11,6 @@ class BlockingOverlayActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Make it very hard to bypass
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN or
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
@@ -38,13 +36,11 @@ class BlockingOverlayActivity : Activity() {
     }
 
     override fun onBackPressed() {
-        // Prevent easy exit
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (!hasFocus) {
-            // Re-launch if user tries to switch away
             val intent = Intent(this, BlockingOverlayActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                 putExtra("blocked_package", intent.getStringExtra("blocked_package"))

@@ -80,7 +80,7 @@ private fun checkLimit(pkg: String) {
 private fun sendTimeUpNotification(pkg: String) {
     // TODO: Implement proper notification here later
     Log.d("ScrollGuard", "🛎️ NOTIFICATION: Time's up for $pkg")
-    // You can show a real notification using NotificationManager
+    // show a real notification using NotificationManager
 }
     private fun launchBlockingOverlay(pkg: String) {
         try {
