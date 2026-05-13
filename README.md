@@ -50,37 +50,37 @@ The app combines Flutter’s cross-platform UI capabilities with native Android 
 
 ## Screenshots
 
-Add screenshots inside:
+### Splash
 
-```bash
-/screenshots
-```
-
-Example:
-
-```bash
-screenshots/
- ├── splash.png
- ├── login.png
- ├── app_list.png
- ├── limit_screen.png
- ├── block_overlay.png
- ├── analytics.png
- └── profile.png
-```
-
-Then reference them like this:
-
-```md
 ![Splash](screenshots/splash.jpeg)
+
+### Login
+
 ![Login](screenshots/login.jpeg)
+
+### Home
+
 ![Home](screenshots/home.jpeg)
+
+### App List
+
 ![Apps](screenshots/app_list.jpeg)
-![Overlar Block](screenshots/overlay_block.jpeg)
+
+### Overlay Block
+
+![Overlay Block](screenshots/overlay_block.jpeg)
+
+### Profile
+
 ![Profile](screenshots/profile.jpeg)
-![Set Limit](screenshots/set_limit.jpeg)    
+
+### Set Limit
+
+![Set Limit](screenshots/set_limit.jpeg)
+
+### About Screen
+
 ![About Screen](screenshots/about.jpeg)
-```
 
 ---
 
